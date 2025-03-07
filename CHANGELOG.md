@@ -4,5 +4,6 @@
 
 ### New Features
 
+- feat: Set full - screen display for MainActivity
 - first implement
 
