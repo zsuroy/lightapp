@@ -7,8 +7,12 @@ import android.app.DownloadManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.webkit.CookieManager;
 import android.webkit.URLUtil;
 import android.webkit.ValueCallback;
@@ -16,7 +20,10 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ListView;
 import android.widget.Toast;
+import androidx.drawerlayout.widget.DrawerLayout;
+
 
 public class MainActivity extends Activity {
 
@@ -52,10 +59,36 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         // 调用父类的 onCreate 方法，确保 Activity 正确初始化
         super.onCreate(savedInstanceState);
+
+        // 设置全屏显示
+        // 请求窗口特性，去除标题栏，使应用界面不显示标题栏，增加显示区域
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        // 获取当前窗口的 DecorView，DecorView 是窗口的顶级视图，包含了状态栏、标题栏等
+        View decorView = getWindow().getDecorView();
+        // 设置 UI 选项为全屏模式，该标志会隐藏状态栏，使应用占据整个屏幕空间
+        int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
+        // 将设置好的 UI 选项应用到 DecorView 上，从而实现全屏显示效果
+        decorView.setSystemUiVisibility(uiOptions);
+        // 检查当前 Android 系统版本是否大于等于 Android 9.0（API 级别 28）
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            // 获取当前窗口的布局参数对象，用于修改窗口的各种属性
+            WindowManager.LayoutParams lp = getWindow().getAttributes();
+            // 设置布局在刘海屏等异形屏幕上的显示模式为短边模式
+            // 短边模式会让内容显示在异形区域的两侧，避免内容被遮挡
+            lp.layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES;
+            // 将修改后的布局参数应用到当前窗口上，使设置生效
+            getWindow().setAttributes(lp);
+        }
+
         // 设置当前 Activity 的布局为 activity_main.xml
         setContentView(R.layout.activity_main);
         // 通过 ID 查找布局中的 WebView 控件，并将其赋值给成员变量 mWebView
         mWebView = findViewById(R.id.activity_main_webview);
+        DrawerLayout mDrawerLayout = findViewById(R.id.drawer_layout);
+        ListView mDrawerList = findViewById(R.id.left_drawer);
+
+        // 初始化 DrawerManager
+        new DrawerManager(this, mDrawerLayout, mDrawerList);
 
         // 获取 WebView 的设置对象
         WebSettings webSettings = mWebView.getSettings();
@@ -122,6 +155,9 @@ public class MainActivity extends Activity {
         // mWebView.loadUrl("file:///android_asset/index.html");
     }
 
+    public WebView getWebView() {
+        return mWebView;
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

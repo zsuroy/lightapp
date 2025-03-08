@@ -4,5 +4,7 @@
 
 ### New Features
 
+- feat: add drawer list (add QQ Group, about, open in browser) for DrawerManager
+- feat: Set full - screen display for MainActivity
 - first implement
 
