@@ -20,7 +20,10 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ListView;
 import android.widget.Toast;
+import androidx.drawerlayout.widget.DrawerLayout;
+
 
 public class MainActivity extends Activity {
 
@@ -81,6 +84,11 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
         // 通过 ID 查找布局中的 WebView 控件，并将其赋值给成员变量 mWebView
         mWebView = findViewById(R.id.activity_main_webview);
+        DrawerLayout mDrawerLayout = findViewById(R.id.drawer_layout);
+        ListView mDrawerList = findViewById(R.id.left_drawer);
+
+        // 初始化 DrawerManager
+        new DrawerManager(this, mDrawerLayout, mDrawerList);
 
         // 获取 WebView 的设置对象
         WebSettings webSettings = mWebView.getSettings();
@@ -147,6 +155,9 @@ public class MainActivity extends Activity {
         // mWebView.loadUrl("file:///android_asset/index.html");
     }
 
+    public WebView getWebView() {
+        return mWebView;
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
