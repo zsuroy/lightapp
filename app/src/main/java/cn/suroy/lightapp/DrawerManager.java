@@ -34,7 +34,7 @@ public class DrawerManager {
         switch (position) {
             case 0:
                 // 加载首页内容
-                ((MainActivity) mActivity).getWebView().loadUrl("https://suroy.cn");
+                ((MainActivity) mActivity).getWebView().loadUrl("http://192.168.4.1");
                 break;
             case 1:
                 Toast.makeText(mActivity, "building...", Toast.LENGTH_SHORT).show();
@@ -60,7 +60,7 @@ public class DrawerManager {
                 break;
             case 3:
                 // 使用系统浏览器打开网页
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://suroy.cn"));
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://192.168.4.1"));
                 mActivity.startActivity(browserIntent);
                 break;
             case 4:
