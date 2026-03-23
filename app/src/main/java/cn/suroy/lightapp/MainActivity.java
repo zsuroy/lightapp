@@ -149,7 +149,7 @@ public class MainActivity extends Activity {
         });
 
         // 加载远程资源，这里是一个示例 URL
-        mWebView.loadUrl("https://suroy.cn");
+        mWebView.loadUrl("http://192.168.4.1");
 
         // 加载本地资源，这里是 Android 资产目录下的 index.html 文件
         // mWebView.loadUrl("file:///android_asset/index.html");
